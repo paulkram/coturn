@@ -1144,6 +1144,12 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
           perror("Cannot create aux listener thread\n");
           exit(-1);
         }
+
+        if (pthread_setname_np(thr, "AuxListenerThrd")) {
+          perror("Cannot setup ListenerThread threadname\n");
+          exit(-1);
+        }
+
         pthread_detach(thr);
       }
     }
@@ -1171,6 +1177,12 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
           perror("Cannot create listener thread\n");
           exit(-1);
         }
+
+        if (pthread_setname_np(thr, "GNRUDPLstnrThrd")) {
+          perror("Cannot setup general ListenerThread threadname\n");
+          exit(-1);
+        }
+
         pthread_detach(thr);
       }
 
@@ -1190,6 +1202,12 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
             perror("Cannot create listener thread\n");
             exit(-1);
           }
+
+          if (pthread_setname_np(thr, "RFC5780LstnrThrd")) {
+            perror("Cannot setup RFC5780 ListenerThread threadname\n");
+            exit(-1);
+          }
+
           pthread_detach(thr);
         }
       }
@@ -1214,6 +1232,12 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
           perror("Cannot create listener thread\n");
           exit(-1);
         }
+
+        if (pthread_setname_np(thr, "DtlsLstnrThrd")) {
+          perror("Cannot setup DTLS ListenerThread threadname\n");
+          exit(-1);
+        }
+
         pthread_detach(thr);
       }
 
@@ -1234,6 +1258,12 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
             perror("Cannot create listener thread\n");
             exit(-1);
           }
+
+          if (pthread_setname_np(thr, "RFC5780DtlsLstn")) {
+            perror("Cannot setup RFC5780 Dtls ListenerThread threadname\n");
+            exit(-1);
+          }
+
           pthread_detach(thr);
         }
       }
@@ -1693,6 +1723,12 @@ static void setup_general_relay_servers(void) {
         perror("Cannot create relay thread\n");
         exit(-1);
       }
+
+      if (pthread_setname_np(general_relay_servers[i]->thr, "RelayThread")) {
+        perror("Cannot setup RelayThread threadname\n");
+        exit(-1);
+      }
+
       pthread_detach(general_relay_servers[i]->thr);
     }
   }
@@ -1764,6 +1800,11 @@ static void setup_auth_server(struct auth_server *as) {
     perror("Cannot create auth thread\n");
     exit(-1);
   }
+
+  if (pthread_setname_np(as->thr, "AuthThread")) {
+    perror("Cannot setup AuthThread threadname\n");
+    exit(-1);
+  }
 }
 
 static void *run_admin_server_thread(void *arg) {
@@ -1787,6 +1828,11 @@ static void setup_admin_server(void) {
 
   if (pthread_create(&(adminserver.thr), NULL, run_admin_server_thread, &adminserver)) {
     perror("Cannot create cli thread\n");
+    exit(-1);
+  }
+
+  if (pthread_setname_np(adminserver.thr, "CliThread")) {
+    perror("Cannot setup CliThread threadname\n");
     exit(-1);
   }
 
