@@ -29,6 +29,7 @@
  */
 
 #include "mainrelay.h"
+#include <stdio.h>
 
 //////////// Backward compatibility with OpenSSL 1.0.x //////////////
 #if (OPENSSL_VERSION_NUMBER < 0x10100001L || defined LIBRESSL_VERSION_NUMBER)
@@ -1145,7 +1146,9 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
           exit(-1);
         }
 
-        if (pthread_setname_np(thr, "AuxListenerThrd")) {
+        char thread_name[32];
+        snprintf(thread_name, sizeof(thread_name), "AuxLstnr_%zu", i);
+        if (pthread_setname_np(thr, thread_name)) {
           perror("Cannot setup ListenerThread threadname\n");
           exit(-1);
         }
@@ -1178,7 +1181,9 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
           exit(-1);
         }
 
-        if (pthread_setname_np(thr, "GNRUDPLstnrThrd")) {
+        char thread_name[32];
+        snprintf(thread_name, sizeof(thread_name), "GNRUDPLstnr_%zu", i);
+        if (pthread_setname_np(thr, thread_name)) {
           perror("Cannot setup general ListenerThread threadname\n");
           exit(-1);
         }
@@ -1203,7 +1208,9 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
             exit(-1);
           }
 
-          if (pthread_setname_np(thr, "RFC5780LstnrThrd")) {
+          char thread_name[32];
+          snprintf(thread_name, sizeof(thread_name), "RFC5780Lstnr_%zu", i);
+          if (pthread_setname_np(thr, thread_name)) {
             perror("Cannot setup RFC5780 ListenerThread threadname\n");
             exit(-1);
           }
@@ -1233,7 +1240,9 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
           exit(-1);
         }
 
-        if (pthread_setname_np(thr, "DtlsLstnrThrd")) {
+        char thread_name[32];
+        snprintf(thread_name, sizeof(thread_name), "DtlsLstnr_%zu", i);
+        if (pthread_setname_np(thr, thread_name)) {
           perror("Cannot setup DTLS ListenerThread threadname\n");
           exit(-1);
         }
@@ -1259,7 +1268,9 @@ static void setup_socket_per_endpoint_udp_listener_servers(void) {
             exit(-1);
           }
 
-          if (pthread_setname_np(thr, "RFC5780DtlsLstn")) {
+          char thread_name[32];
+          snprintf(thread_name, sizeof(thread_name), "RFC5780DtlsLstn_%zu", i);
+          if (pthread_setname_np(thr, thread_name)) {
             perror("Cannot setup RFC5780 Dtls ListenerThread threadname\n");
             exit(-1);
           }
@@ -1724,7 +1735,9 @@ static void setup_general_relay_servers(void) {
         exit(-1);
       }
 
-      if (pthread_setname_np(general_relay_servers[i]->thr, "RelayThread")) {
+      char thread_name[32];
+      snprintf(thread_name, sizeof(thread_name), "Relay_%zu", i);
+      if (pthread_setname_np(general_relay_servers[i]->thr, thread_name)) {
         perror("Cannot setup RelayThread threadname\n");
         exit(-1);
       }
@@ -1793,7 +1806,7 @@ static void *run_auth_server_thread(void *arg) {
   return arg;
 }
 
-static void setup_auth_server(struct auth_server *as) {
+static void setup_auth_server(struct auth_server *as, authserver_id sn) {
   pthread_attr_t attr;
   if (pthread_attr_init(&attr) || pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED) ||
       pthread_create(&(as->thr), &attr, run_auth_server_thread, as)) {
@@ -1801,7 +1814,9 @@ static void setup_auth_server(struct auth_server *as) {
     exit(-1);
   }
 
-  if (pthread_setname_np(as->thr, "AuthThread")) {
+  char thread_name[32];
+  snprintf(thread_name, sizeof(thread_name), "Auth_%u", sn);
+  if (pthread_setname_np(as->thr, "Auth")) {
     perror("Cannot setup AuthThread threadname\n");
     exit(-1);
   }
@@ -1831,7 +1846,7 @@ static void setup_admin_server(void) {
     exit(-1);
   }
 
-  if (pthread_setname_np(adminserver.thr, "CliThread")) {
+  if (pthread_setname_np(adminserver.thr, "Cli")) {
     perror("Cannot setup CliThread threadname\n");
     exit(-1);
   }
@@ -1906,7 +1921,7 @@ void setup_server(void) {
     authserver_id sn = 0;
     for (sn = 0; sn < authserver_number; ++sn) {
       authserver[sn].id = sn;
-      setup_auth_server(&(authserver[sn]));
+      setup_auth_server(&(authserver[sn]), sn);
     }
     TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "Total auth threads: %d\n", authserver_number);
   }
