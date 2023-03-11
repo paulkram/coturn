@@ -23,6 +23,7 @@ set(HEADER_FILES
     userdb.h
     dbdrivers/dbdriver.h
     prom_server.h
+    prom_cpp_server.h
     dbdrivers/dbd_redis.h
     )
 
@@ -40,6 +41,7 @@ set(SOURCE_FILES
     userdb.c
     dbdrivers/dbdriver.c
     prom_server.c
+    prom_cpp_server.c
     dbdrivers/dbd_redis.c
     )
 
@@ -119,6 +121,13 @@ if(Prometheus_FOUND)
     list(APPEND HEADER_FILES prom_server.h)
 else()
     list(APPEND turnserver_DEFINED TURN_NO_PROMETHEUS)
+endif()
+
+find_package(Prometheus-cpp-core)
+if(Prometheus-cpp-core_FOUND)
+    list(APPEND SOURCE_FILES prom_cpp_server.c)
+    list(APPEND HEADER_FILES prom_cpp_server.h)
+    list(APPEND turnserver_DEFINED TURN_PROMETHEUS_CPP)
 endif()
 
 list(APPEND turnserver_DEFINED TURN_NO_SCTP)

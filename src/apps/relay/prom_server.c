@@ -2,7 +2,7 @@
 #include "mainrelay.h"
 #include "ns_turn_utils.h"
 
-#if !defined(TURN_NO_PROMETHEUS)
+#if !defined(TURN_NO_PROMETHEUS) && !defined(TURN_PROMETHEUS_CPP)
 
 prom_counter_t *stun_binding_request;
 prom_counter_t *stun_binding_response;

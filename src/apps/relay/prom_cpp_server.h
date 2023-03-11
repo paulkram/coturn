@@ -4,7 +4,7 @@
 
 #define DEFAULT_PROM_SERVER_PORT (9641)
 
-#if !defined(TURN_NO_PROMETHEUS) && !defined(TURN_NO_PROMETHEUS_CPP)
+#if defined(TURN_PROMETHEUS_CPP)
 
 #include "ns_turn_ioalib.h"
 
@@ -76,7 +76,7 @@ void prom_inc_stun_binding_error(void);
 
 void start_prometheus_server(void);
 
-#endif /* TURN_NO_PROMETHEUS && TURN_NO_PROMETHEUS_CPP */
+#endif /* TURN_NO_PROMETHEUS && TURN_PROMETHEUS_CPP */
 
 void stop_prometheus_server(void);
 

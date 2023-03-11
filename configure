@@ -593,7 +593,7 @@ int main(int argc, char** argv) {
 ##########################
 
 if [ -z "${CC}" ] ; then
-    for CC in cc gcc clang; do
+    for CC in c++ g++ clang++; do
         ${CC} ${TMPCPROGC} ${OSCFLAGS} -o ${TMPCPROGB} 2>>/dev/null
         ER=$?
         if [ ${ER} -eq 0 ] ; then
@@ -888,13 +888,14 @@ if [ -z "${TURN_NO_PROMETHEUS}" ] ; then
         ER=$?
         if ! [ ${ER} -eq 0 ] ; then
             ${ECHO_CMD} "Prometheus-cpp lib found."
+            OSCFLAGS="${OSCFLAGS} -DTURN_PROMETHEUS_CPP"
+            CXXFLAGS="${CXXFLAGS} -std=c++11"
         else
             ${ECHO_CMD}
             ${ECHO_CMD} "Warning: Libprometheus-cpp development libraries are not installed properly in required location."
             ${ECHO_CMD} "Prometheus support will be disabled."
             ${ECHO_CMD} "See the docs/Build.md file."
             ${ECHO_CMD}
-            OSCFLAGS="${OSCFLAGS} -DTURN_NO_PROMETHEUS_CPP"
         fi
     fi
 
@@ -1066,6 +1067,7 @@ ${ECHO_CMD} "LDFLAGS += ${OSLIBS}" >> Makefile
 ${ECHO_CMD} "DBLIBS += ${DBLIBS}" >> Makefile
 ${ECHO_CMD} "CFLAGS += ${OSCFLAGS}" >> Makefile
 ${ECHO_CMD} "CPPFLAGS = ${CPPFLAGS}" >> Makefile
+${ECHO_CMD} "CXXFLAGS = ${CXXFLAGS}" >> Makefile
 ${ECHO_CMD} "DBCFLAGS += ${DBCFLAGS} ${TURN_NO_PQ} ${TURN_NO_MYSQL} ${TURN_NO_SQLITE} ${TURN_NO_MONGO} ${TURN_NO_HIREDIS} ${TURN_NO_SYSTEMD}" >> Makefile
 ${ECHO_CMD} "#" >> Makefile
 ${ECHO_CMD} "PORTNAME = ${PORTNAME}" >> Makefile

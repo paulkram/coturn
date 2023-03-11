@@ -32,6 +32,7 @@
 #include "dbdrivers/dbdriver.h"
 
 #include "prom_server.h"
+#include "prom_cpp_server.h"
 
 #if defined(WINDOWS)
 #include <iphlpapi.h>

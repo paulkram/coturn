@@ -39,6 +39,7 @@
 #include "ns_ioalib_impl.h"
 
 #include "prom_server.h"
+#include "prom_cpp_server.h"
 
 #if TLS_SUPPORTED
 #include <event2/bufferevent_ssl.h>

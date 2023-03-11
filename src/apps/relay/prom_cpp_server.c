@@ -2,7 +2,7 @@
 #include "mainrelay.h"
 #include "ns_turn_utils.h"
 
-#if !defined(TURN_NO_PROMETHEUS) && !defined(TURN_NO_PROMETHEUS_CPP)
+#if !defined(TURN_NO_PROMETHEUS) && defined(TURN_PROMETHEUS_CPP)
 
 extern prometheus::Registry *registry;
 extern prometheus::Exposer *exposer;
@@ -226,4 +226,4 @@ void stop_prometheus_server(void) {
     return;
 }
 
-#endif /* TURN_NO_PROMETHEUS */
+#endif /* TURN_NO_PROMETHEUS && TURN_PROMETHEUS_CPP */
