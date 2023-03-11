@@ -210,11 +210,20 @@ void prom_inc_stun_binding_error(void) {
   }
 }
 
+void stop_prometheus_server(void) {
+    delete exposer;
+    delete registry;
+}
+
 #else
 
 void start_prometheus_server(void) {
   TURN_LOG_FUNC(TURN_LOG_LEVEL_INFO, "turnserver compiled without prometheus support\n");
   return;
+}
+
+void stop_prometheus_server(void) {
+    return;
 }
 
 #endif /* TURN_NO_PROMETHEUS */

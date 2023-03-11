@@ -3229,6 +3229,8 @@ int main(int argc, char **argv) {
 
   disconnect_database();
 
+  stop_prometheus_server();
+
   return 0;
 }
 

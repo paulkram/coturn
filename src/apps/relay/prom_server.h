@@ -78,6 +78,8 @@ void start_prometheus_server(void);
 
 #endif /* TURN_NO_PROMETHEUS */
 
+void stop_prometheus_server(void);
+
 #ifdef __cplusplus
 }
 #endif /* __clplusplus */
