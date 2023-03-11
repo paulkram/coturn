@@ -879,6 +879,8 @@ if [ -z "${TURN_NO_PROMETHEUS}" ] ; then
     else
         ${ECHO_CMD}
         ${ECHO_CMD} "Warning: Libprom development libraries are not installed properly in required location."
+        ${ECHO_CMD} "Legacy prometheus support will be disabled."
+        OSCFLAGS="${OSCFLAGS} -DTURN_NO_PROMETHEUS"
         ${ECHO_CMD}
         ${ECHO_CMD} "Info: Looking for Libprometheus-cpp development libraries."
 
@@ -892,7 +894,7 @@ if [ -z "${TURN_NO_PROMETHEUS}" ] ; then
             ${ECHO_CMD} "Prometheus support will be disabled."
             ${ECHO_CMD} "See the docs/Build.md file."
             ${ECHO_CMD}
-            OSCFLAGS="${OSCFLAGS} -DTURN_NO_PROMETHEUS"
+            OSCFLAGS="${OSCFLAGS} -DTURN_NO_PROMETHEUS_CPP"
         fi
     fi
 
