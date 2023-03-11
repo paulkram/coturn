@@ -879,10 +879,21 @@ if [ -z "${TURN_NO_PROMETHEUS}" ] ; then
     else
         ${ECHO_CMD}
         ${ECHO_CMD} "Warning: Libprom development libraries are not installed properly in required location."
-        ${ECHO_CMD} "Prometheus support will be disabled."
-        ${ECHO_CMD} "See the docs/Build.md file."
         ${ECHO_CMD}
-        OSCFLAGS="${OSCFLAGS} -DTURN_NO_PROMETHEUS"
+        ${ECHO_CMD} "Info: Looking for Libprometheus-cpp development libraries."
+
+        testlib prometheus-cpp-core
+        ER=$?
+        if ! [ ${ER} -eq 0 ] ; then
+            ${ECHO_CMD} "Prometheus-cpp lib found."
+        else
+            ${ECHO_CMD}
+            ${ECHO_CMD} "Warning: Libprometheus-cpp development libraries are not installed properly in required location."
+            ${ECHO_CMD} "Prometheus support will be disabled."
+            ${ECHO_CMD} "See the docs/Build.md file."
+            ${ECHO_CMD}
+            OSCFLAGS="${OSCFLAGS} -DTURN_NO_PROMETHEUS"
+        fi
     fi
 
 else

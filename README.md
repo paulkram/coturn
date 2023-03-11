@@ -35,6 +35,7 @@ coturn requires following dependencies to be installed first
 Optional
 - openssl (to support TLS and DTLS, authorized STUN and TURN)
 - libmicrohttp and [prometheus-client-c](https://github.com/digitalocean/prometheus-client-c) (prometheus interface)
+- [prometheus-cpp](https://github.com/jupp0r/prometheus-cpp) prometheus-cpp (prometheus C++ interface, experimental)
 - MySQL (user database)
 - [Hiredis](https://github.com/redis/hiredis) (user database, monitoring)
 - SQLite (user database)
